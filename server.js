@@ -49,13 +49,14 @@ function searchWeather(query){
 };
 
 function Weather(data) {
-    this.daily = data.daily.data;
-    this.time = function() {
-    let date = data.daily.data[0].time;
-    let newDate = date.setUTCSeconds(utcSeconds);
-
-    return newDate;
-    };
-
+    let arr = [];
+    for(let i = 0; i < data.daily.data.length;i++){
+        const daily = data.daily.data[i].summary;
+        const time = data.daily.data[i].time;
+        const convertThisDate = new Date(time * 1000);
+        const asAString = convertThisDate.toLocaleDateString();
+        arr.push(asAString, daily);
+    }
+    console.log(arr);
 }
 
