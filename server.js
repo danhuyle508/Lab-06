@@ -1,4 +1,4 @@
-'usestrict';
+'use strict';
 
 const express = require('express');
 
@@ -6,6 +6,36 @@ const superagent = require('superagent');
 
 const cors = require('cors');
 
-const dotenv = require('dotenv');
+ require('dotenv').config();
+
+const app = express();
+
+const PORT = process.env.PORT;
+
+app.use(cors());
 
 
+app.get('/location', (request, response) => {
+    const locationData = searchToLatLong(request.query.data);
+    response.send(locationData);
+});
+
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+
+
+function searchToLatLong(query) {
+    const geoData = require('./data/geo.json');
+    const location = new Location(geoData);
+    location.search_query = query;
+    return location;
+};
+
+function searchWeather(query){
+    const weatherData = require('./data/darksky.json');
+};
+
+function Location(data){
+    this.formatted_query = data.results[0].formatted_address;
+    this.latitude = data.results[0].geometry.location.lat;
+    this.longitude = data.results[0].geometry.location.lng;
+}
