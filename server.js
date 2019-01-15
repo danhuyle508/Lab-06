@@ -55,8 +55,8 @@ function Weather(data) {
         const time = data.daily.data[i].time;
         const convertThisDate = new Date(time * 1000);
         const asAString = convertThisDate.toLocaleDateString();
-        arr.push(asAString, daily);
-    }
-    console.log(arr);
+        let weatherData = {time: asAString, forecast: daily };
+        arr.push(weatherData);    }
+        return arr; 
 }
 
